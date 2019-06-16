@@ -12,10 +12,6 @@ class App extends React.Component {
 		days: []
 	};
 
-	componentDidUpdate = () => {
-		console.log(this.state.habits);
-	};
-
 	createHabit = e => {
 		const { habits, habit } = this.state;
 		e.preventDefault();
