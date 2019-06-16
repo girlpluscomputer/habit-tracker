@@ -1,71 +1,89 @@
-import React from "react";
-import AddHabit from "./components/AddHabit";
-import Modal from "./components/Modal";
-import HabitList from "./components/Habit-list";
+import React, { Fragment } from 'react';
+import AddHabit from './components/AddHabit';
+import Modal from './components/Modal';
+import HabitList from './components/Habit-list';
+import './App.css';
 
 class App extends React.Component {
-  state = {
-    show: false,
-    habit: "",
-    habits: [],
-    days: []
-  };
-  createHabit = e => {
-    e.preventDefault();
-    this.handleClose();
-    this.state.habits.push(this.state.habit);
-  };
+	state = {
+		show: false,
+		habit: '',
+		habits: [],
+		days: []
+	};
 
-  handleClose = () => {
-    this.setState({
-      show: false
-    });
-  };
-  handleOpen = () => {
-    this.setState({
-      show: true
-    });
-  };
+	componentDidUpdate = () => {
+		console.log(this.state.habits);
+	};
 
-  handleChange = e => {
-    this.setState({
-      habit: e.target.value
-    });
-  };
+	createHabit = e => {
+		const { habits, habit } = this.state;
+		e.preventDefault();
+		this.toggleModal();
 
-  handleDelete = e => {
-    const newHabits = this.state.habits;
-    const index = e.target.getAttribute("id");
-    newHabits.splice(index, 1);
-    this.setState({
-      habits: newHabits
-    });
-  };
+		this.setState({
+			habits: [...habits, habit]
+		});
+	};
 
-  render() {
-    return (
-      <div className="App">
-        <div className="content">
-          <div className="sidebar">
-            <AddHabit handleClick={this.handleOpen} />
-          </div>
-          <div className="Dashboard">
-            <HabitList
-              habits={this.state.habits}
-              handleDelete={this.handleDelete}
-            />
-          </div>
-        </div>
+	toggleModal = () => {
+		const { show } = this.state;
+		this.setState({ show: !show });
+	};
 
-        <Modal
-          isOpen={this.state.show}
-          close={this.handleClose}
-          handleChange={this.handleChange}
-          createHabit={this.createHabit}
-        />
-      </div>
-    );
-  }
+	// handleClose = () => {
+	// 	this.setState({
+	// 		show: false
+	// 	});
+	// };
+
+	// handleOpen = () => {
+	// 	this.setState({
+	// 		show: true
+	// 	});
+	// };
+
+	handleChange = e => {
+		const { target: { value: habit } } = e;
+
+		this.setState({
+			habit
+		});
+	};
+
+	handleDelete = index => {
+		const { habits: habitsState } = this.state;
+		const habits = [...habitsState];
+		habits.splice(index, 1);
+
+		this.setState({
+			habits
+		});
+	};
+
+	render() {
+		const { show, habits } = this.state;
+		return (
+			<Fragment>
+				<div className="App">
+					<div className="Sidebar">
+						<AddHabit toggleModal={this.toggleModal} />
+					</div>
+					<div className="Dashboard">
+						<HabitList habits={habits} handleDelete={this.handleDelete} />
+					</div>
+				</div>
+
+				<Modal
+					show={show}
+					// close={this.handleClose}
+					toggleModal={this.toggleModal}
+					handleChange={this.handleChange}
+					createHabit={this.createHabit}
+				/>
+			</Fragment>
+		);
+	}
 }
 
 export default App;

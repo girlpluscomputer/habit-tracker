@@ -1,20 +1,17 @@
-import React, { Fragment } from "react";
-import Habit from "./Habit";
-function HabitList(props) {
-  return (
-    <Fragment>
-      {props.habits.map((habit, id) => {
-        return (
-          <Habit
-            habit={habit}
-            key={id}
-            id={id}
-            handleDelete={props.handleDelete}
-          />
-        );
-      })}
-    </Fragment>
-  );
-}
+import React, { Fragment } from 'react';
+import Habit from './Habit';
+
+const HabitList = ({ habits, handleDelete }) => (
+	<Fragment>
+		{habits.map((habit, index) => (
+			<Habit
+				habit={habit}
+				key={index}
+				index={index}
+				handleDelete={handleDelete}
+			/>
+		))}
+	</Fragment>
+);
 
 export default HabitList;

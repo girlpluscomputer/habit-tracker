@@ -1,21 +1,18 @@
-import React from "react";
-import "./Habit.css";
+import React from 'react';
+import './Habit.css';
 
-function Habit(props) {
-  return (
-    <div className="Habit-container" key={props.id}>
-      <div className="Habit-card">
-        <h2 className="Habit-title">{props.habit}</h2>
-        <button
-          onClick={props.handleDelete}
-          className="Habit-delete-button"
-          id={props.id}
-        >
-          x
-        </button>
-      </div>
-    </div>
-  );
+function Habit({ habit, handleDelete, index }) {
+	return (
+		<div className="Habit-container">
+			<h2 className="Habit-title">{habit}</h2>
+			<button
+				onClick={() => handleDelete(index)}
+				className="Habit-delete-button"
+			>
+				x
+			</button>
+		</div>
+	);
 }
 
 export default Habit;
